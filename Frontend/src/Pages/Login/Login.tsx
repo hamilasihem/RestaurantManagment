@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Button, Card, Input, Typography, Divider } from "antd";
-import { GoogleOutlined, FacebookOutlined } from "@ant-design/icons";
+import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 
-const { Title, Text, Link } = Typography;
+const { Title, Text, Link, Paragraph } = Typography;
 
 interface LoginForm {
   email: string;
@@ -21,75 +21,178 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen w-full">
-      <div className="flex items-center justify-center w-full max-w-md">
-        <Card className="w-full p-6 shadow-lg text-center">
-          <Title level={3}>Connexion</Title>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium">Email</label>
-              <Input
-                type="email"
-                placeholder="exemple@gmail.com"
-                {...register("email", { required: "L'email est requis" })}
-                className="mt-1 w-full"
-              />
-              {errors.email && (
-                <Text type="danger" className="text-xs">
-                  {errors.email.message}
-                </Text>
-              )}
-            </div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        backgroundColor: "#f5f5f5",
+      }}
+    >
+      <Card
+        style={{
+          width: 450,
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          font: "Roboto",
+        }}
+      >
+        <div>
+          <Title style={{ fontSize: 29, fontWeight: "700" }}>
+            Welcome Back 👋
+          </Title>
+          <Paragraph style={{ fontSize: 17 }}>
+            Today is a new day. It's your day. You shape it. Sign in to start
+            managing your projects.
+          </Paragraph>
+        </div>
 
-            <div>
-              <label className="block text-sm font-medium">Mot de passe</label>
-              <Input.Password
-                placeholder="Au moin 8 caractères"
-                {...register("password", {
-                  required: "Le mot de passe est requis",
-                  maxLength: {
-                    value: 8,
-                    message:
-                      "Le mot de passe ne doit pas dépasser 8 caractères",
-                  },
-                })}
-                className="mt-1 w-full"
-              />
-              {errors.password && (
-                <Text type="danger" className="text-xs">
-                  {errors.password.message}
-                </Text>
-              )}
-            </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4"
+          style={{ width: "100%" }}
+        >
+          <div>
+            <label
+              style={{
+                display: "block",
+                textAlign: "left",
+                marginBottom: 5,
+                fontSize: 16,
+                fontWeight: 400,
+              }}
+            >
+              Email
+            </label>
+            <Input
+              type="email"
+              placeholder="exemple@gmail.com"
+              {...register("email", { required: "L'email est requis" })}
+              style={{
+                backgroundColor: "#F6F6F7FF",
+                borderRadius: 5,
+                border: "1px solid #d9d9d9",
+                color: "#8897AD",
+                fontWeight: 500,
+                height: 45,
+                width: 380,
+              }}
+            />
+            {errors.email && (
+              <Text type="danger" className="text-xs">
+                {errors.email.message}
+              </Text>
+            )}
+          </div>
 
-            <div className="text-right">
-              <Link href="#">Mot de passe oublié ?</Link>
-            </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                textAlign: "left",
+                marginBottom: 5,
+                fontSize: 16,
+                fontWeight: 400,
+              }}
+            >
+              Password
+            </label>
+            <Input.Password
+              placeholder="At least 8 characters"
+              {...register("password", {
+                required: "Le mot de passe est requis",
+                maxLength: {
+                  value: 8,
+                  message: "Le mot de passe ne doit pas dépasser 8 caractères",
+                },
+              })}
+              style={{
+                backgroundColor: "#F6F6F7FF",
+                borderRadius: 5,
+                border: "1px solid #d9d9d9",
+                color: "#8897AD",
+                fontWeight: 500,
+                height: 45,
+                width: 380,
+              }}
+            />
+            {errors.password && (
+              <Text type="danger" className="text-xs">
+                {errors.password.message}
+              </Text>
+            )}
+          </div>
 
-            <Button type="primary" htmlType="submit" className="w-full">
-              Se connecter
-            </Button>
-          </form>
-
-          <Divider>Ou</Divider>
-
-          <Button icon={<GoogleOutlined />} className="w-full mb-2">
-            Se connecter avec Google
-          </Button>
-          <Button
-            icon={<FacebookOutlined />}
-            className="w-full"
-            style={{ backgroundColor: "#3b5998", color: "#fff" }}
+          <div
+            style={{ display: "block", textAlign: "right", marginBottom: 20 }}
           >
-            Se connecter avec Facebook
-          </Button>
+            <Link href="#">Forgot Password ?</Link>
+          </div>
 
-          <Divider />
-          <Text>
-            Vous n'avez pas de compte ? <Link href="#">S'inscrire</Link>
-          </Text>
-        </Card>
-      </div>
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            style={{
+              backgroundColor: "#FBBC04",
+              borderColor: "#FFD700",
+              color: "#F8F7F5FF",
+              height: 45,
+              width: 380,
+            }}
+          >
+            Sign in
+          </Button>
+        </form>
+
+        <Divider>Or</Divider>
+
+        <Button
+          icon={<GoogleOutlined />}
+          type="primary"
+          htmlType="submit"
+          block
+          style={{
+            backgroundColor: "#F6F6F7FF",
+            color: "black",
+            fontSize: 16,
+            height: 45,
+            width: 380,
+          }}
+        >
+          Sign in with Google
+        </Button>
+        <Button
+          icon={<FacebookOutlined />}
+          type="primary"
+          htmlType="submit"
+          block
+          style={{
+            backgroundColor: "#F6F6F7FF",
+            marginTop: 15,
+            color: "black",
+            fontSize: 16,
+            height: 45,
+            width: 380,
+          }}
+        >
+          Sign in with Facebook
+        </Button>
+
+        <Divider />
+        <Text style={{ fontSize: 18 }}>
+          Don't you have an account? <Link href="#">Sign up</Link>
+        </Text>
+
+        <Paragraph style={{ marginTop: 50, fontSize: 16, color: "gray" }}>
+          © 2025 ALL RIGHTS RESERVED
+        </Paragraph>
+      </Card>
     </div>
   );
 }
