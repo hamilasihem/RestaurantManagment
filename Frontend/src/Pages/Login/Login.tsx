@@ -1,6 +1,10 @@
-import { useForm } from "react-hook-form";
-import { Button, Card, Input, Typography, Divider } from "antd";
+import { Controller, useForm } from "react-hook-form";
+import { Button, Card, Input, Typography, Divider, message } from "antd";
 import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
+import supabase from "../../../supabaseClient";
+import { useNavigate } from "react-router-dom";
+
+
 
 const { Title, Text, Link, Paragraph } = Typography;
 
@@ -10,14 +14,35 @@ interface LoginForm {
 }
 
 export default function Login() {
-  const {
-    register,
+  const navigate = useNavigate();
+  const { 
     handleSubmit,
+    control,
     formState: { errors },
-  } = useForm<LoginForm>();
+  } = useForm<LoginForm>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const onSubmit = (data: LoginForm) => {
-    console.log("Form Data:", data);
+  const onSubmit = async (data: LoginForm) => {
+    const { email, password } = data;
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+
+
+
+    if (error) {
+      message.error("Échec de la connexion : " + error.message);
+    } else {
+      message.success("Connexion réussie !");
+      navigate("/"); 
+    }
   };
 
   return (
@@ -69,19 +94,26 @@ export default function Login() {
             >
               Email
             </label>
-            <Input
-              type="email"
-              placeholder="exemple@gmail.com"
-              {...register("email", { required: "L'email est requis" })}
-              style={{
-                backgroundColor: "#F6F6F7FF",
-                borderRadius: 5,
-                border: "1px solid #d9d9d9",
-                color: "#8897AD",
-                fontWeight: 500,
-                height: 45,
-                width: 380,
-              }}
+            <Controller
+              name="email"
+              control={control}
+              rules={{ required: "L'email est requis" }}
+              render={({ field }) => (
+                <Input
+                  type="email"
+                  placeholder="exemple@gmail.com"
+                  {...field}
+                  style={{
+                    backgroundColor: "#F6F6F7FF",
+                    borderRadius: 5,
+                    border: "1px solid #d9d9d9",
+                    color: "#8897AD",
+                    fontWeight: 500,
+                    height: 45,
+                    width: 380,
+                  }}
+                />
+              )}
             />
             {errors.email && (
               <Text type="danger" className="text-xs">
@@ -102,24 +134,31 @@ export default function Login() {
             >
               Password
             </label>
-            <Input.Password
-              placeholder="At least 8 characters"
-              {...register("password", {
+            <Controller
+              name="password"
+              control={control}
+              rules={{
                 required: "Le mot de passe est requis",
                 maxLength: {
-                  value: 8,
-                  message: "Le mot de passe ne doit pas dépasser 8 caractères",
+                  value: 11,
+                  message: "Le mot de passe ne doit pas dépasser 11 caractères",
                 },
-              })}
-              style={{
-                backgroundColor: "#F6F6F7FF",
-                borderRadius: 5,
-                border: "1px solid #d9d9d9",
-                color: "#8897AD",
-                fontWeight: 500,
-                height: 45,
-                width: 380,
               }}
+              render={({ field }) => (
+                <Input.Password
+                  placeholder="At least 8 characters"
+                  {...field}
+                  style={{
+                    backgroundColor: "#F6F6F7FF",
+                    borderRadius: 5,
+                    border: "1px solid #d9d9d9",
+                    color: "#8897AD",
+                    fontWeight: 500,
+                    height: 45,
+                    width: 380,
+                  }}
+                />
+              )}
             />
             {errors.password && (
               <Text type="danger" className="text-xs">

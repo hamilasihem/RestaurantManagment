@@ -35,6 +35,8 @@ const VerificationCode: React.FC = () => {
           flexDirection: "column",
           justifyContent: "center",
           font: "Roboto",
+          
+          
         }}
       >
         <Title style={{ fontSize: 32, fontWeight: "700" }}>
