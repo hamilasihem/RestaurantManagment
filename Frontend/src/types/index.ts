@@ -8,9 +8,10 @@ interface GuardProps {
 
 export interface IRoute {
   path: string;
-  element: ComponentType;
+  element?: React.ComponentType;
   guard?: ComponentType<GuardProps>;
   layout?: ComponentType<GuardProps>;
+  children?: IRoute[];
 }
 
 export interface StudentDataType {
@@ -47,4 +48,5 @@ export interface ITableHeaderProps {
 export interface IColumnsBtn {
   columnsInfo: TColumns;
   handleChangeColumns: (cols: TColumns) => void;
+  
 }

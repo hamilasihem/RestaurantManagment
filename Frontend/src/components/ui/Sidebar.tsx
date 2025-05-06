@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu } from "antd";
+import { Button, Menu } from "antd";
 import {
   DashboardOutlined,
   PieChartOutlined,
@@ -10,6 +10,8 @@ import {
   BookOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
+import { handleLogout } from "../../api/handleLogout";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -18,6 +20,11 @@ type MenuItem = Required<MenuProps>["items"][number];
 const items: MenuItem[] = [
   {
     key: "sub1",
+    label: "Jhon Doe",
+    icon: <UserOutlined />,
+  },
+  {
+    key: "sub2",
     label: "Dashboards",
     type: "group",
     children: [
@@ -27,7 +34,7 @@ const items: MenuItem[] = [
     ],
   },
   {
-    key: "sub2",
+    key: "sub3",
     label: "Users",
     icon: <UserOutlined />,
     children: [
@@ -39,39 +46,56 @@ const items: MenuItem[] = [
     ],
   },
   {
-    key: "sub3",
+    key: "sub4",
     label: "Profile",
     icon: <ProfileOutlined />,
   },
   {
-    key: "sub4",
+    key: "sub5",
     label: "Reservation",
     icon: <CalendarOutlined />,
   },
   {
-    key: "sub5",
+    key: "sub6",
     label: "Blog",
     icon: <BookOutlined />,
   },
 ];
 
+
+
 const Sidebar: React.FC = () => {
+  const navigate = useNavigate();
+
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
+    if (e.key === "2") {
+      navigate("/plats");
+    }
+   if (e.key === "3") {
+    navigate("/menu");
+   }
   };
 
   return (
-    
+    <div>
       <Menu
         onClick={onClick}
         style={{ width: 256 }}
         defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        defaultOpenKeys={["sub2"]}
         mode="inline"
         items={items}
       />
-    
+      <div style={{ marginTop: 400, textAlign: "left", paddingLeft: 16 }}>
+        <Button type="primary" danger onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
+    </div>
   );
 };
+
+
 
 export default Sidebar;

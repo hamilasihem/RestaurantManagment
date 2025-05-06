@@ -1,26 +1,30 @@
-import { Button } from "antd";
-import { CgLogOut } from "react-icons/cg";
-import { handleLogout } from "../api/handleLogout";
+// DashboardLayout.tsx
+import { Layout } from "antd";
+import Navbar from "../components/ui/Navbar";
+import Sidebar from "../components/ui/Sidebar";
+import { Outlet } from "react-router-dom"; // ✅ Import Outlet
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const { Header, Sider, Content } = Layout;
+
+const DashboardLayout = () => {
   return (
-    <div className="flex">
-      
-      <div className=" h-full w-2/12" />
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider width={260} style={{ background: "#fff", paddingTop: 20 }}>
+        <Sidebar />
+      </Sider>
 
-      <div className="w-10/12 flex flex-col h-full">
-        <div className="h-[7vh] w-10/12 fixed top-0 right-0 shadow-lg">
-          <Button
-            icon={<CgLogOut />}
-            className="absolute top-6 right-10 h-[3rem] !w-[3rem] "
-            onClick={handleLogout}
-          />
-        </div>
-        <div className="h-[7vh]  " />
+      <Layout>
+        <Header style={{ background: "#fff", padding: 0 }}>
+          <Navbar />
+        </Header>
 
-        <div className="h-[93vh] overflow-auto">{children}</div>
-      </div>
-    </div>
+        <Content
+          style={{ margin: "24px 16px", padding: 24, background: "#fff" }}
+        >
+          <Outlet /> {/* ✅ C'est ici que le contenu dynamique s'affiche */}
+        </Content>
+      </Layout>
+    </Layout>
   );
 };
 
